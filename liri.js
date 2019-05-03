@@ -1,5 +1,5 @@
 // ==============================
-// Global Vaiables and Functions
+// Global Variables and Functions
 // ==============================
 
 require('dotenv').config();
@@ -25,12 +25,12 @@ function getSearchTerm() {
 // Movie API
 // ====================
 
-function buildMovieUrl(title) {
-    return 'http://www.omdbapi.com/?t=' + title + '&apikey=4aba57dd'
+function buildMovieUrl(movieTitle) {
+    return 'http://www.omdbapi.com/?t=' + movieTitle + '&apikey=4aba57dd'
 } 
 
-function displayMovie(result) {
-    const movie = result
+function displayMovieData(movieData) {
+    const movie = movieData
     console.log('\n');
     console.log('Title: ' + movie.Title);
     console.log('Release Year: ' + movie.Year);
@@ -43,27 +43,27 @@ function displayMovie(result) {
     console.log('\n');
 }
 
-function findMovieData(title) {
+function findMovieData(movieTitle) {
     axios
-      .get(buildMovieUrl(title))
-      .then(function (results) {
-        const result = results.data;
-        displayMovie(result);
+      .get(buildMovieUrl(movieTitle))
+      .then(function (response) {
+        const movieData = response.data;
+        displayMovieData(movieData);
       })
       .catch(function (error) {
-          console.log(error);
+        console.log(error);
       })
 }
 
 function searchMovie() {
-    const searchTerm = getSearchTerm();
+    const movieTitle = getSearchTerm();
 
     if (getSearchType() === 'movie-this') {
       console.log('Finding movie data!')
-      if (searchTerm === '') {
+      if (movieTitle === '') {
         findMovieData('Mr. Nobody')
       } else {
-        findMovieData(searchTerm);
+        findMovieData(movieTitle);
       }
     }
 }
