@@ -60,7 +60,11 @@ function searchMovie() {
 
     if (getSearchType() === 'movie-this') {
       console.log('Finding movie data!')
-      findMovieData(searchTerm);
+      if (searchTerm === '') {
+        findMovieData('Mr. Nobody')
+      } else {
+        findMovieData(searchTerm);
+      }
     }
 }
 
