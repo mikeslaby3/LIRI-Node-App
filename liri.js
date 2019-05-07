@@ -116,18 +116,31 @@ function buildArtistUrl(artistName) {
 function displayConcertData(concertData) {
     const concert = concertData
     console.log('\n');
-    console.log(concert);
-    // console.log('Venue: ' + concert.venue.name);
-    // console.log('Location: ' + concert.venue.city);
-    // console.log('Concert Date: ' + formatDateAndTime(concert.datetime));
-    // console.log('\n');
+    console.log('First concert:');
+    console.log('Artist(s): ' + concert[0].lineup[0]);
+    console.log('Venue: ' + concert[0].venue.name);
+    console.log('Location: ' + concert[0].venue.city + ', ' + concert[0].venue.region + ', ' + concert[0].venue.country);
+    console.log('Concert Date: ' + formatDateAndTime(concert[0].datetime));
+    console.log('\n');
+    console.log('Second concert:');
+    console.log('Artist(s): ' + concert[1].lineup[0]);
+    console.log('Venue: ' + concert[1].venue.name);
+    console.log('Location: ' + concert[1].venue.city + ', ' + concert[1].venue.region + ', ' + concert[1].venue.country);
+    console.log('Concert Date: ' + formatDateAndTime(concert[1].datetime));
+    console.log('\n');
+    console.log('Third concert:');
+    console.log('Artist(s): ' + concert[2].lineup[0]);
+    console.log('Venue: ' + concert[2].venue.name);
+    console.log('Location: ' + concert[2].venue.city + ', ' + concert[2].venue.region + ', ' + concert[2].venue.country);
+    console.log('Concert Date: ' + formatDateAndTime(concert[2].datetime));
+    console.log('\n');
 }
 
 function findConcertData(artistName) {
     axios
         .get(buildArtistUrl(artistName))
         .then(function (response) {
-            const concertData = response.data[0];
+            const concertData = response.data;
             displayConcertData(concertData);
         })
         .catch(function (error) {
@@ -139,7 +152,7 @@ function searchArtist() {
     const artistName = getSearchTerm();
 
     if (getSearchType() === 'concert-this') {
-        console.log('Finding concert data!')
+        console.log('Finding next three concerts!')
         if (artistName === '') {
             findConcertData('Blink 182')
         } else {
