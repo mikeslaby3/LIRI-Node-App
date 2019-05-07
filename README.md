@@ -10,6 +10,10 @@ By typing in "spotify-this-song" followed by a song, LIRI will return the song t
 
 ![](images/spotify-this-song.png)
 
+By typing in "concert-this" following an artist, LIRI will return the name of the venue, concert location, and concert date of the next three concerts they're performing.
+
+![](images/concert-this.png)
+
 The last feature is the command "do-what-it-says". This will return the command that is written in the .txt file. The command must be one of the three previous options. In this example, the .txt file requested song information.  
 
 ![](images/do-what-it-says.png)
