@@ -7,6 +7,8 @@ require('dotenv').config();
 var axios = require('axios');
 var fs = require('fs');
 var keys = require('./keys.js');
+var moment = require('moment');
+moment().format();
 
 var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
@@ -114,10 +116,11 @@ function buildArtistUrl(artistName) {
 function displayConcertData(concertData) {
     const concert = concertData
     console.log('\n');
-    console.log('Venue: ' + concert.venue.name);
-    console.log('Location: ' + concert.venue.city);
-    console.log('Concert Date: ' + concert.datetime);
-    console.log('\n');
+    console.log(concert);
+    // console.log('Venue: ' + concert.venue.name);
+    // console.log('Location: ' + concert.venue.city);
+    // console.log('Concert Date: ' + formatDateAndTime(concert.datetime));
+    // console.log('\n');
 }
 
 function findConcertData(artistName) {
@@ -143,6 +146,13 @@ function searchArtist() {
             findConcertData(artistName);
         }
     }
+}
+
+function formatDateAndTime(dateAndTime) {
+    const T = dateAndTime.indexOf('T');
+    const formattedDate = moment(dateAndTime.slice(0,T), 'YYYY-MM-DD').format('MM/DD/YYYY');
+
+    return formattedDate;
 }
 
 searchArtist();
