@@ -1,6 +1,6 @@
 # liri-node-app
 
-LIRI is command line node application that takes in parameters and gives you back data. Similar to iPhone's SIRI, which is a Speech Interpretation and Recognition Interface, LIRI is a Language Interpretation and Recognition Interface. There are three categories of data you can pull from LIRI, song data from Spotify's API, movie data from the OMDB API, and concert data from the Bands in Town API. 
+LIRI is command line node application that takes in parameters and gives you back data. Similar to iPhone's SIRI, which is a Speech Interpretation and Recognition Interface, LIRI is a Language Interpretation and Recognition Interface. There are three categories of data you can pull from LIRI: song data from Spotify's API, movie data from the OMDB API, and concert data from the Bands in Town API. 
 
 By typing in "movie-this" followed by a movie, LIRI will return the movie title, when it was released, the ratings it received, country it was made in, languages in the movie, the plot, and the main actors.
 
