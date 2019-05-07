@@ -8,7 +8,6 @@ var axios = require('axios');
 var fs = require('fs');
 var keys = require('./keys.js');
 var moment = require('moment');
-moment().format();
 
 var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
@@ -23,6 +22,36 @@ function getSearchType() {
 
 function getSearchTerm() {
     return getUserArguments().slice(1).join("*");
+}
+
+switch (getSearchType()) {
+    case "movie-this":
+        const movieTitle = getSearchTerm();
+        console.log('Finding movie data!')
+        buildMovieUrl(movieTitle);
+        findMovieData(movieTitle);
+        break;
+
+    case "spotify-this-song":
+        const songTitle = getSearchTerm();
+        console.log('Finding song data!')
+        findSongData(songTitle);
+        break;
+
+    case "concert-this":
+        const artistName = getSearchTerm();
+        console.log('Finding concert data!')
+        buildArtistUrl(artistName);
+        findConcertData(artistName);
+        break;
+
+    case "do-what-it-says":
+        console.log('Finding what the text file says')
+        findTextFileData();
+        break;
+
+    default:
+        console.log("Not sure what you want me to do here...");
 }
 
 // ====================
@@ -56,23 +85,10 @@ function findMovieData(movieTitle) {
         })
         .catch(function (error) {
             console.log(error);
+            console.log('You forgot to give me a movie, so here is the info of Mr. Nobody')
+            findMovieData('Mr. Nobody');
         })
 }
-
-function searchMovie() {
-    const movieTitle = getSearchTerm();
-
-    if (getSearchType() === 'movie-this') {
-        console.log('Finding movie data!')
-        if (movieTitle === '') {
-            findMovieData('Mr. Nobody')
-        } else {
-            findMovieData(movieTitle);
-        }
-    }
-}
-
-searchMovie();
 
 // ====================
 // Spotify API
@@ -94,17 +110,6 @@ function findSongData(songTitle) {
     });
 }
 
-function searchSong() {
-    const songTitle = getSearchTerm();
-
-    if (getSearchType() === 'spotify-this-song') {
-        console.log('Finding song data!')
-        findSongData(songTitle);
-    }
-}
-
-searchSong();
-
 // ====================
 // Bands In Town API
 // ====================
@@ -120,19 +125,19 @@ function displayConcertData(concertData) {
     console.log('Artist(s): ' + concert[0].lineup[0]);
     console.log('Venue: ' + concert[0].venue.name);
     console.log('Location: ' + concert[0].venue.city + ', ' + concert[0].venue.region + ', ' + concert[0].venue.country);
-    console.log('Concert Date: ' + formatDateAndTime(concert[0].datetime));
+    console.log('Concert Date/Time: ' + formatDateAndTime(concert[0].datetime));
     console.log('\n');
     console.log('Second concert:');
     console.log('Artist(s): ' + concert[1].lineup[0]);
     console.log('Venue: ' + concert[1].venue.name);
     console.log('Location: ' + concert[1].venue.city + ', ' + concert[1].venue.region + ', ' + concert[1].venue.country);
-    console.log('Concert Date: ' + formatDateAndTime(concert[1].datetime));
+    console.log('Concert Date/Time: ' + formatDateAndTime(concert[1].datetime));
     console.log('\n');
     console.log('Third concert:');
     console.log('Artist(s): ' + concert[2].lineup[0]);
     console.log('Venue: ' + concert[2].venue.name);
     console.log('Location: ' + concert[2].venue.city + ', ' + concert[2].venue.region + ', ' + concert[2].venue.country);
-    console.log('Concert Date: ' + formatDateAndTime(concert[2].datetime));
+    console.log('Concert Date/Time: ' + formatDateAndTime(concert[2].datetime));
     console.log('\n');
 }
 
@@ -148,27 +153,13 @@ function findConcertData(artistName) {
         })
 }
 
-function searchArtist() {
-    const artistName = getSearchTerm();
-
-    if (getSearchType() === 'concert-this') {
-        console.log('Finding next three concerts!')
-        if (artistName === '') {
-            findConcertData('Blink 182')
-        } else {
-            findConcertData(artistName);
-        }
-    }
-}
-
 function formatDateAndTime(dateAndTime) {
     const T = dateAndTime.indexOf('T');
     const formattedDate = moment(dateAndTime.slice(0,T), 'YYYY-MM-DD').format('MM/DD/YYYY');
+    const formattedTime = moment(dateAndTime.slice(T), 'HH mm ss').format('LT');
 
-    return formattedDate;
+    return formattedDate + ' at ' + formattedTime;
 }
-
-searchArtist();
 
 // ====================
 // Text File Command
@@ -207,11 +198,11 @@ function findTextFileData() {
     
 }
 
-function searchTextFile() {
-    if (getSearchType() === 'do-what-it-says') {
-        console.log('Finding what the text file says')
-        findTextFileData();
-    }
-}
+// function searchTextFile() {
+//     if (searchType === 'do-what-it-says') {
+//         console.log('Finding what the text file says')
+//         findTextFileData();
+//     }
+// }
 
-searchTextFile();
+// searchTextFile();
